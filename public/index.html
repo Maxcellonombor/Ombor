@@ -3,28 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ombor</title>
+<title>Ombor Qoldiqlari</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 :root{--bg:#0f1117;--sur:#1a1d27;--sur2:#22263a;--brd:#2e3350;--acc:#4f9cf9;--acc2:#f9a84f;--grn:#3dd68c;--red:#f96060;--yel:#f9d44f;--txt:#e8eaf0;--mut:#6b7280;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 .hdr{background:var(--sur);border-bottom:1px solid var(--brd);padding:11px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hdr-title{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--acc)}
-.hdr-sub{font-size:10px;color:var(--mut);margin-top:2px}
+.htitle{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--acc)}
+.hsub{font-size:10px;color:var(--mut);margin-top:1px}
+.hdr-r{display:flex;gap:7px;align-items:center}
 .badge{background:var(--acc);color:#000;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.sdot{width:9px;height:9px;border-radius:50%;background:var(--grn);flex-shrink:0}
+.sdot.spin{background:var(--yel);animation:bl 0.7s infinite}
+.sdot.err{background:var(--red)}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0.2}}
 .ubar{padding:7px 14px;background:var(--sur2);border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px}
 .ubar label{font-size:11px;color:var(--mut);white-space:nowrap}
-.uinput{background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-family:var(--mono);font-size:12px;padding:5px 9px;outline:none;width:140px}
+.uinput{background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-family:var(--mono);font-size:12px;padding:5px 9px;outline:none;width:130px}
 .uinput:focus{border-color:var(--acc)}
+.online{margin-left:auto;font-size:10px;color:var(--grn);font-family:var(--mono)}
 .sbar{padding:9px 14px;background:var(--sur);border-bottom:1px solid var(--brd);display:flex;gap:8px;align-items:center}
 .sinput{flex:1;background:var(--bg);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-family:var(--sans);font-size:14px;padding:8px 12px;outline:none}
 .sinput:focus{border-color:var(--acc)}
 .sinput::placeholder{color:var(--mut)}
-.exp-btn{background:#1d6b3a;color:#fff;border:none;border-radius:7px;font-family:var(--sans);font-size:11px;font-weight:600;padding:7px 11px;cursor:pointer;white-space:nowrap}
+.expbtn{background:#1d6b3a;color:#fff;border:1px solid #2a9d5c;border-radius:7px;font-family:var(--sans);font-size:11px;font-weight:600;padding:7px 11px;cursor:pointer;white-space:nowrap}
+.expbtn:active{background:#14512b}
 .filters{display:flex;gap:6px;padding:8px 14px;overflow-x:auto;background:var(--sur);border-bottom:1px solid var(--brd);scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
-.fbtn{background:var(--sur2);border:1px solid var(--brd);border-radius:7px;color:var(--mut);font-family:var(--sans);font-size:11px;padding:6px 10px;cursor:pointer;white-space:nowrap}
+.fbtn{background:var(--sur2);border:1px solid var(--brd);border-radius:7px;color:var(--mut);font-family:var(--sans);font-size:11px;padding:6px 10px;cursor:pointer;white-space:nowrap;transition:all 0.15s}
 .fbtn.on{background:var(--acc);border-color:var(--acc);color:#000;font-weight:600}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd);border-bottom:1px solid var(--brd)}
 .scard{background:var(--sur);padding:10px;text-align:center}
@@ -43,7 +50,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .grp-cnt{font-family:var(--mono);font-size:9px;color:var(--mut);background:var(--sur2);padding:1px 6px;border-radius:8px}
 .grp-tot{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--acc2);font-weight:600}
 .plist{padding:0 7px 6px}
-.pcard{background:var(--sur);border:1px solid var(--brd);border-radius:9px;margin-bottom:5px;display:flex;align-items:center;padding:0 3px 0 12px;overflow:hidden;cursor:pointer}
+.pcard{background:var(--sur);border:1px solid var(--brd);border-radius:9px;margin-bottom:5px;display:flex;align-items:center;padding:0 3px 0 12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s}
+.pcard:active{border-color:var(--acc)}
 .pcard.zero{opacity:0.4}
 .pinfo{flex:1;padding:9px 0;min-width:0}
 .pmodel{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -51,21 +59,22 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .pqty{font-family:var(--mono);font-size:20px;font-weight:600;min-width:46px;text-align:center;padding:0 3px}
 .qg{color:var(--grn)}.qy{color:var(--yel)}.qr{color:var(--red)}.q0{color:var(--mut)}
 .btng{display:flex;flex-direction:column;gap:3px;padding:7px 4px}
-.bm,.bp{width:37px;height:31px;border-radius:6px;border:none;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none}
+.bm,.bp{width:37px;height:31px;border-radius:6px;border:none;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;transition:transform 0.1s}
 .bm{background:rgba(249,96,96,0.15);color:var(--red);border:1px solid rgba(249,96,96,0.3)}
 .bp{background:rgba(61,214,140,0.15);color:var(--grn);border:1px solid rgba(61,214,140,0.3)}
-.bm:active{background:rgba(249,96,96,0.3)}.bp:active{background:rgba(61,214,140,0.3)}
+.bm:active{transform:scale(0.9);background:rgba(249,96,96,0.3)}
+.bp:active{transform:scale(0.9);background:rgba(61,214,140,0.3)}
 .bm:disabled{opacity:0.22;cursor:not-allowed}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .ov.open{opacity:1;pointer-events:all}
-.obox{background:var(--sur);border-radius:16px 16px 0 0;border:1px solid var(--brd);width:100%;padding:16px 18px 34px;transform:translateY(100%);transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)}
+.obox{background:var(--sur);border-radius:16px 16px 0 0;border:1px solid var(--brd);width:100%;padding:16px 18px 36px;transform:translateY(100%);transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);max-height:92vh;overflow-y:auto}
 .ov.open .obox{transform:translateY(0)}
 .ohdl{width:36px;height:4px;background:var(--brd);border-radius:2px;margin:0 auto 14px}
 .otitle{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--acc);margin-bottom:3px}
 .osub{font-size:11px;color:var(--mut);margin-bottom:14px}
 .mdisp{display:flex;align-items:center;justify-content:center;gap:18px;margin:14px 0}
-.mbbtn{width:62px;height:62px;border-radius:12px;border:none;font-size:28px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.mbbtn:active{opacity:0.8}
+.mbbtn{width:62px;height:62px;border-radius:12px;border:none;font-size:28px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.1s}
+.mbbtn:active{transform:scale(0.93)}
 .mminus{background:rgba(249,96,96,0.18);color:var(--red);border:2px solid rgba(249,96,96,0.4)}
 .mplus{background:rgba(61,214,140,0.18);color:var(--grn);border:2px solid rgba(61,214,140,0.4)}
 .mnum{font-family:var(--mono);font-size:46px;font-weight:700;color:var(--txt);min-width:70px;text-align:center;line-height:1}
@@ -73,48 +82,56 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .minput{flex:1;background:var(--bg);border:1px solid var(--brd);border-radius:9px;color:var(--txt);font-family:var(--mono);font-size:16px;padding:10px 12px;outline:none;text-align:center}
 .minput:focus{border-color:var(--acc)}
 .mclose{width:100%;padding:12px;background:var(--acc);color:#000;border:none;border-radius:10px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;margin-top:12px}
+.mdel{width:100%;padding:10px;background:transparent;color:var(--red);border:1px solid rgba(249,96,96,0.3);border-radius:10px;font-family:var(--sans);font-size:12px;cursor:pointer;margin-top:8px}
 .cov{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;padding:16px}
 .cov.open{opacity:1;pointer-events:all}
-.cbox{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:20px 18px;width:100%;max-width:420px;transform:scale(0.93);transition:transform 0.2s;max-height:88vh;overflow-y:auto}
+.cbox{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:20px 18px;width:100%;max-width:420px;transform:scale(0.93);transition:transform 0.2s;max-height:90vh;overflow-y:auto}
 .cov.open .cbox{transform:scale(1)}
-.cbox h3{font-family:var(--mono);font-size:13px;margin-bottom:14px}
-.field{display:flex;flex-direction:column;gap:4px;margin-bottom:11px}
-.field label{font-size:11px;color:var(--mut)}
-.field input{background:var(--bg);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-family:var(--mono);font-size:13px;padding:9px 11px;outline:none;width:100%}
-.field input:focus{border-color:var(--acc2)}
-.tags{display:flex;flex-wrap:wrap;margin-top:5px;gap:4px}
-.tag{background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:4px 9px;font-family:var(--mono);font-size:10px;color:var(--mut);cursor:pointer}
-.tag.on{background:rgba(249,168,79,0.2);border-color:var(--acc2);color:var(--acc2)}
+.cbox h3{font-family:var(--mono);font-size:13px;margin-bottom:12px}
+.cbox p{font-size:11px;color:var(--mut);margin-bottom:12px;line-height:1.5}
+.afield{display:flex;flex-direction:column;gap:4px;margin-bottom:11px}
+.afield label{font-size:11px;color:var(--mut)}
+.afield input,.afield select{background:var(--bg);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-family:var(--mono);font-size:13px;padding:9px 11px;outline:none;width:100%}
+.afield input:focus{border-color:var(--acc2)}
+.afield select option{background:var(--sur2);color:var(--txt)}
+.gtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.gtag{background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:4px 9px;font-family:var(--mono);font-size:11px;color:var(--mut);cursor:pointer;transition:all 0.12s}
+.gtag.sel{background:rgba(249,168,79,0.2);border-color:var(--acc2);color:var(--acc2)}
 .eopts{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .eopt{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:8px;cursor:pointer}
 .eopt input[type=checkbox]{width:14px;height:14px;accent-color:var(--acc)}
 .eopt span{font-size:12px;color:var(--txt)}
 .eopt small{margin-left:auto;font-size:10px;color:var(--mut)}
-.arow{display:flex;gap:8px;margin-top:6px}
-.bok{flex:1;background:var(--acc2);color:#000;border:none;border-radius:9px;font-family:var(--sans);font-size:14px;font-weight:700;padding:12px;cursor:pointer}
-.bok.bl{background:var(--acc)}
-.bok:active{opacity:0.85}
-.bcx{background:var(--sur2);color:var(--mut);border:1px solid var(--brd);border-radius:9px;font-size:13px;padding:12px 14px;cursor:pointer}
-.fab{position:fixed;bottom:22px;right:18px;width:54px;height:54px;border-radius:50%;background:var(--acc2);color:#000;border:none;font-size:26px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:150;box-shadow:0 4px 18px rgba(249,168,79,0.4)}
-.fab:active{opacity:0.85}
-.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--sur2);border:1px solid var(--brd);color:var(--txt);font-family:var(--mono);font-size:11px;padding:7px 14px;border-radius:18px;z-index:500;transition:transform 0.2s;white-space:nowrap;pointer-events:none}
+.acts{display:flex;gap:8px;margin-top:6px}
+.btngo{flex:1;background:var(--acc2);color:#000;border:none;border-radius:9px;font-family:var(--sans);font-size:14px;font-weight:700;padding:13px;cursor:pointer}
+.btngo.green{background:#1d6b3a;color:#fff}
+.btncancel{background:var(--sur2);color:var(--mut);border:1px solid var(--brd);border-radius:9px;font-size:13px;padding:13px 16px;cursor:pointer}
+.fab{position:fixed;bottom:22px;right:18px;width:54px;height:54px;border-radius:50%;background:var(--acc2);color:#000;border:none;font-size:26px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:150;box-shadow:0 4px 18px rgba(249,168,79,0.4);transition:transform 0.15s}
+.fab:active{transform:scale(0.91)}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--sur2);border:1px solid var(--brd);color:var(--txt);font-family:var(--mono);font-size:11px;padding:7px 14px;border-radius:18px;z-index:500;transition:transform 0.2s;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .nores{text-align:center;padding:36px 14px;color:var(--mut);font-family:var(--mono);font-size:12px}
-.pb{padding-bottom:80px}
 </style>
 </head>
 <body>
 <div class="hdr">
-  <div><div class="hdr-title">OMBOR QOLDIQLARI</div><div class="hdr-sub">2026 — Mart oyi</div></div>
-  <div class="badge" id="totalBadge">0 dona</div>
+  <div>
+    <div class="htitle">OMBOR QOLDIQLARI</div>
+    <div class="hsub" id="hdrSub">Yuklanmoqda...</div>
+  </div>
+  <div class="hdr-r">
+    <div class="sdot spin" id="sdot"></div>
+    <div class="badge" id="totalBadge">—</div>
+  </div>
 </div>
 <div class="ubar">
   <label>Ismingiz:</label>
   <input class="uinput" type="text" id="uinput" placeholder="Ism kiriting..." maxlength="20">
+  <div class="online">&#9679; Online — umumiy</div>
 </div>
 <div class="sbar">
   <input class="sinput" type="text" id="srch" placeholder="Model qidirish..." autocomplete="off" spellcheck="false">
-  <button class="exp-btn" onclick="openExp()">&#11015; Excel</button>
+  <button class="expbtn" onclick="openExp()">&#11015; Excel</button>
 </div>
 <div class="filters">
   <button class="fbtn on" onclick="setF('all',this)">Barchasi</button>
@@ -126,125 +143,413 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
   <button class="fbtn" onclick="setF('zero',this)">Tugagan</button>
 </div>
 <div class="stats">
-  <div class="scard"><div class="sval" id="stTotal">0</div><div class="slbl">Jami dona</div></div>
-  <div class="scard"><div class="sval" id="stTypes">0</div><div class="slbl">Tur soni</div></div>
-  <div class="scard"><div class="sval" id="stZero" style="color:var(--red)">0</div><div class="slbl">Tugagan</div></div>
+  <div class="scard"><div class="sval" id="stTotal">—</div><div class="slbl">Jami dona</div></div>
+  <div class="scard"><div class="sval" id="stTypes">—</div><div class="slbl">Tur soni</div></div>
+  <div class="scard"><div class="sval" id="stZero" style="color:var(--red)">—</div><div class="slbl">Tugagan</div></div>
 </div>
 <div class="htog" onclick="toggleH()">
   <span>&#128221; Oxirgi o'zgarishlar</span>
-  <span id="hcnt" style="font-family:var(--mono);font-size:10px">0 ta</span>
+  <span id="hcnt" style="font-family:var(--mono);font-size:10px">—</span>
 </div>
 <div class="hlist" id="hlist"></div>
-<div id="container" class="pb"></div>
+<div id="container"><div class="nores">Yuklanmoqda...</div></div>
 
-<div class="ov" id="pov" onclick="if(event.target===this)closeP()">
+<!-- Product modal -->
+<div class="ov" id="mov" onclick="if(event.target===this)closeM()">
   <div class="obox">
     <div class="ohdl"></div>
-    <div class="otitle" id="ptitle"></div>
-    <div class="osub" id="psub"></div>
+    <div class="otitle" id="mtitle">—</div>
+    <div class="osub" id="msub">—</div>
     <div class="mdisp">
       <button class="mbbtn mminus" onclick="mch(-1)">&#8722;</button>
-      <div class="mnum" id="pnum">0</div>
+      <div class="mnum" id="mnum">0</div>
       <button class="mbbtn mplus" onclick="mch(+1)">+</button>
     </div>
     <div class="minrow">
-      <input class="minput" type="number" id="pinput" placeholder="Miqdor" min="1" inputmode="numeric">
+      <input class="minput" type="number" id="minput" placeholder="Miqdor" min="1" inputmode="numeric">
       <button class="mbbtn mminus" style="width:48px;height:44px;font-size:19px;border-radius:9px" onclick="mapp(-1)">&#8722;</button>
       <button class="mbbtn mplus" style="width:48px;height:44px;font-size:19px;border-radius:9px" onclick="mapp(+1)">+</button>
     </div>
-    <button class="mclose" onclick="closeP()">Yopish</button>
+    <button class="mclose" onclick="closeM()">Yopish</button>
+    <button class="mdel" onclick="delProd()">&#128465; Mahsulotni o'chirish</button>
   </div>
 </div>
 
-<div class="cov" id="eov" onclick="if(event.target===this)closeExp()">
-  <div class="cbox">
-    <h3 style="color:var(--grn)">&#11015; Excel Hisobot</h3>
-    <div class="field"><label>Oy nomi</label><input type="text" id="eper" value="Mart 2026"></div>
-    <div class="eopts">
-      <label class="eopt"><input type="checkbox" id="chkSold" checked><span>Sotilgan tavarlar</span><small id="eSC">0</small></label>
-      <label class="eopt"><input type="checkbox" id="chkStock" checked><span>Joriy qoldiq</span><small id="eQC">0</small></label>
-      <label class="eopt"><input type="checkbox" id="chkZero"><span>Tugagan mahsulotlar</span><small id="eZC">0</small></label>
-      <label class="eopt"><input type="checkbox" id="chkHist"><span>Tarix</span><small id="eHC">0</small></label>
-    </div>
-    <div class="arow">
-      <button class="bcx" onclick="closeExp()">Bekor</button>
-      <button class="bok bl" onclick="doExport()">&#11015; Yuklab olish</button>
-    </div>
-  </div>
-</div>
-
+<!-- Add modal -->
 <div class="cov" id="aov" onclick="if(event.target===this)closeAdd()">
   <div class="cbox">
-    <h3 style="color:var(--acc2)">&#10010; Yangi mahsulot</h3>
-    <div class="field">
+    <h3 style="color:var(--acc2)">&#10010; Yangi mahsulot qo'shish</h3>
+    <div class="afield">
       <label>Brend</label>
-      <input type="text" id="aBrand" placeholder="AOKLY, LEOCH AGM..." list="blist" autocomplete="off">
-      <datalist id="blist"></datalist>
+      <input type="text" id="aBrand" placeholder="Masalan: LEOCH AGM..." list="brandDL" autocomplete="off">
+      <datalist id="brandDL"></datalist>
     </div>
-    <div class="field">
-      <label>Guruh (quyidagidan tanlang yoki o'zing yoz)</label>
-      <input type="text" id="aGroup" placeholder="AOKLY PzB..." autocomplete="off">
-      <div class="tags" id="grpTags"></div>
+    <div class="afield">
+      <label>Guruh</label>
+      <input type="text" id="aGroup" placeholder="Masalan: AOKLY PzB..." autocomplete="off">
+      <div class="gtags" id="groupTags"></div>
     </div>
-    <div class="field">
-      <label>Model nomi</label>
-      <input type="text" id="aModel" placeholder="5PzS400..." autocomplete="off">
+    <div class="afield">
+      <label>Model</label>
+      <input type="text" id="aModel" placeholder="Masalan: 5PzB400..." autocomplete="off">
     </div>
-    <div class="field">
-      <label>Boshlangich miqdor (dona)</label>
+    <div class="afield">
+      <label>Boshlangich miqdor</label>
       <input type="number" id="aQty" value="0" min="0" inputmode="numeric">
     </div>
-    <div class="arow">
-      <button class="bcx" onclick="closeAdd()">Bekor</button>
-      <button class="bok" onclick="addProduct()">&#10010; Qo'shish</button>
+    <div class="acts">
+      <button class="btncancel" onclick="closeAdd()">Bekor</button>
+      <button class="btngo" onclick="addProd()">&#10010; Qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export modal -->
+<div class="cov" id="eov" onclick="if(event.target===this)closeExp()">
+  <div class="cbox">
+    <h3 style="color:var(--acc)">&#128202; Excel Hisobot</h3>
+    <p>Qaysi ma'lumotlarni yuklab olishni tanlang.</p>
+    <div class="afield"><label>Oy nomi</label><input type="text" id="eper" value="Mart 2026"></div>
+    <div class="eopts">
+      <label class="eopt"><input type="checkbox" id="chkSold" checked><span>Sotilgan tavarlar</span><small id="eSold">0 tur</small></label>
+      <label class="eopt"><input type="checkbox" id="chkStock" checked><span>Joriy qoldiq</span><small id="eStock">0 tur</small></label>
+      <label class="eopt"><input type="checkbox" id="chkZero"><span>Tugagan mahsulotlar</span><small id="eZero">0 tur</small></label>
+      <label class="eopt"><input type="checkbox" id="chkHist"><span>O'zgarishlar tarixi</span><small id="eHist">0 ta</small></label>
+    </div>
+    <div class="acts">
+      <button class="btncancel" onclick="closeExp()">Bekor</button>
+      <button class="btngo green" onclick="doExport()">&#11015; Yuklab olish</button>
     </div>
   </div>
 </div>
 
 <button class="fab" onclick="openAdd()">+</button>
 <div class="toast" id="toast"></div>
+
 <script>
-const INIT=[{id:1,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"2PzS210",qty:12},{id:2,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"2PzS250",qty:12},{id:3,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"5PzS400",qty:0},{id:4,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"5PzS625",qty:100},{id:5,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"4PzS500",qty:32},{id:6,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"5PzS575",qty:48},{id:7,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"3PzS240",qty:24},{id:8,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"3PzS375",qty:12},{id:9,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"6PzS480",qty:24},{id:10,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"5PzS700",qty:48},{id:11,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"6PzS750",qty:24},{id:12,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"5PzS775",qty:24},{id:13,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"7PzS630",qty:48},{id:14,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"8PzS640",qty:24},{id:15,brand:"IN GC YUASA",group:"IN GC YUASA PzS",model:"4PzS620",qty:40},{id:16,brand:"IN GC YUASA",group:"IN GC YUASA PzB",model:"7PzB385",qty:20},{id:17,brand:"IN GC YUASA",group:"IN GC YUASA PzB",model:"7PzB525",qty:0},{id:18,brand:"IN GC YUASA",group:"IN GC YUASA PzB",model:"5PzB500",qty:73},{id:19,brand:"IN GC YUASA",group:"IN GC YUASA PzB",model:"6PzB450",qty:24},{id:20,brand:"AOKLY",group:"AOKLY PzS",model:"7PzS560",qty:24},{id:21,brand:"AOKLY",group:"AOKLY PzS",model:"4PzS560",qty:16},{id:22,brand:"AOKLY",group:"AOKLY PzS",model:"4PzS500",qty:0},{id:23,brand:"AOKLY",group:"AOKLY PzB",model:"5PzB500",qty:24},{id:24,brand:"AOKLY",group:"AOKLY PzB",model:"10PzB550",qty:24},{id:25,brand:"AOKLY",group:"AOKLY PzB",model:"5PzB450",qty:48},{id:26,brand:"AOKLY",group:"AOKLY PzB",model:"10PzB650",qty:0},{id:27,brand:"LEOCH AGM",group:"LEOCH AGM",model:"6v265Amp",qty:99},{id:28,brand:"LEOCH AGM",group:"LEOCH AGM",model:"8v165Amp",qty:33},{id:29,brand:"LEOCH AGM",group:"LEOCH AGM",model:"12v100Amp",qty:26},{id:30,brand:"LEOCH AGM",group:"LEOCH AGM",model:"12v120Amp",qty:30},{id:31,brand:"LEOCH AGM",group:"LEOCH AGM",model:"12v76Amp",qty:20},{id:32,brand:"LEOCH AGM",group:"LEOCH AGM",model:"12v55Amp",qty:19},{id:33,brand:"LEOCH AGM",group:"LEOCH AGM",model:"12v63Amp",qty:40},{id:34,brand:"LEOCH AGM",group:"LEOCH AGM",model:"8v188Amp",qty:120},{id:35,brand:"LEOCH AGM",group:"LEOCH AGM",model:"DT6v435Amp",qty:8},{id:36,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"24v200Amp",qty:1},{id:37,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"24v280Amp",qty:1},{id:38,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"48v360Amp",qty:1},{id:39,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"48v400Amp",qty:0},{id:40,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"48v460Amp",qty:1},{id:41,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"48v500Amp",qty:3},{id:42,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"48v560Amp",qty:0},{id:43,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"80v205Amp",qty:1},{id:44,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"80v280Amp",qty:1},{id:45,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"80v420Amp",qty:2},{id:46,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"80v460Amp",qty:1},{id:47,brand:"LEOCH LI-ION",group:"LEOCH Li-Ion",model:"MKS48v150Amp",qty:3},{id:48,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"2000A 24v50Amp",qty:1},{id:49,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"25.6v80Amp",qty:1},{id:50,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"48v100Amp",qty:6},{id:51,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"48v140Amp",qty:5},{id:52,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"80v50Amp",qty:0},{id:53,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"80v80Amp",qty:1},{id:54,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"80v120Amp",qty:3},{id:55,brand:"zaryadka",group:"LEOCH Li-Ion Zaryadka",model:"3000A 48v50Amp",qty:3},{id:56,brand:"zaryadka",group:"Kislotali Zaryadka",model:"24v50Amp (1)",qty:2},{id:57,brand:"zaryadka",group:"Kislotali Zaryadka",model:"24v50Amp (2)",qty:1},{id:58,brand:"zaryadka",group:"Kislotali Zaryadka",model:"24v60Amp",qty:1},{id:59,brand:"zaryadka",group:"Kislotali Zaryadka",model:"48v60Amp",qty:5},{id:60,brand:"zaryadka",group:"Kislotali Zaryadka",model:"48v80Amp",qty:4},{id:61,brand:"zaryadka",group:"Kislotali Zaryadka",model:"48v100Amp",qty:2},{id:62,brand:"zaryadka",group:"Kislotali Zaryadka",model:"80v100Amp",qty:1},{id:63,brand:"zaryadka",group:"Kislotali Zaryadka",model:"80v80Amp",qty:1},{id:64,brand:"zaryadka",group:"Kislotali Zaryadka",model:"2000A 48v30Amp",qty:20}];
-const SK='ombor_v5',HK='ombor_hist_v5';
-var products=[],hist=[],filt='all',srch='',mid=null,tT=null;
-function load(){try{var r=localStorage.getItem(SK);if(r){var s=JSON.parse(r);var base=INIT.map(function(p){var f=s.find(function(x){return x.id===p.id;});return f?Object.assign({},p,{qty:f.qty}):Object.assign({},p);});s.forEach(function(x){if(!INIT.find(function(p){return p.id===x.id;}))base.push(Object.assign({},x));});products=base;}else{products=INIT.map(function(p){return Object.assign({},p);});}}catch(e){products=INIT.map(function(p){return Object.assign({},p);});}try{var rh=localStorage.getItem(HK);hist=rh?JSON.parse(rh):[];}catch(e){hist=[];}}
-function save(){try{localStorage.setItem(SK,JSON.stringify(products));}catch(e){}try{localStorage.setItem(HK,JSON.stringify(hist.slice(0,200)));}catch(e){}}
-function getUser(){return document.getElementById('uinput').value.trim()||"Noma'lum";}
-function getTs(){var n=new Date();return n.getDate().toString().padStart(2,'0')+'.'+(n.getMonth()+1).toString().padStart(2,'0')+' '+n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');}
-function change(id,delta){var p=products.find(function(x){return x.id===id;});if(!p)return;var nq=Math.max(0,p.qty+delta);if(nq===p.qty)return;p.qty=nq;hist.unshift({id:id,model:p.model,group:p.group,delta:delta,newQty:nq,user:getUser(),time:getTs()});save();updateCard(id);if(mid===id)document.getElementById('pnum').textContent=nq;document.getElementById('hcnt').textContent=hist.length+' ta';if(document.getElementById('hlist').classList.contains('open'))renderHist();showToast((delta>0?'+':'')+delta+': '+p.model+' \u2192 '+nq+' dona',delta>0);}
-function qcls(q){return q===0?'q0':q<=5?'qr':q<=15?'qy':'qg';}
-function getFilt(){return products.filter(function(p){var mf=filt==='all'||(filt==='zero'&&p.qty===0)||(filt==='zaryadka'&&p.brand==='zaryadka')||p.brand===filt;var ms=!srch||p.model.toLowerCase().includes(srch)||p.brand.toLowerCase().includes(srch)||p.group.toLowerCase().includes(srch);return mf&&ms;});}
-function render(){var fl=getFilt();var tot=products.reduce(function(s,p){return s+p.qty;},0);var zer=products.filter(function(p){return p.qty===0;}).length;document.getElementById('stTotal').textContent=tot;document.getElementById('stTypes').textContent=products.length;document.getElementById('stZero').textContent=zer;document.getElementById('totalBadge').textContent=tot+' dona';var c=document.getElementById('container');if(!fl.length){c.innerHTML='<div class="nores">Topilmadi</div>';return;}var grps={};fl.forEach(function(p){if(!grps[p.group])grps[p.group]=[];grps[p.group].push(p);});var html='';Object.keys(grps).forEach(function(g){var items=grps[g];var gt=items.reduce(function(s,p){return s+p.qty;},0);html+='<div class="grp-hdr"><span class="grp-name">'+g+'</span><span class="grp-cnt">'+items.length+' tur</span><span class="grp-tot">'+gt+' dona</span></div><div class="plist">';items.forEach(function(p){html+='<div class="pcard'+(p.qty===0?' zero':'')+'" id="c'+p.id+'" onclick="openP('+p.id+')">'+'<div class="pinfo"><div class="pmodel">'+p.model+'</div><div class="pbrand">'+p.group+'</div></div>'+'<div class="pqty '+qcls(p.qty)+'" id="q'+p.id+'">'+p.qty+'</div>'+'<div class="btng" onclick="event.stopPropagation()">'+'<button class="bp" onclick="change('+p.id+',+1)">+</button>'+'<button class="bm" onclick="change('+p.id+',-1)"'+(p.qty===0?' disabled':'')+'>&#8722;</button>'+'</div></div>';});html+='</div>';});c.innerHTML=html;}
-function updateCard(id){var p=products.find(function(x){return x.id===id;});var qEl=document.getElementById('q'+id),card=document.getElementById('c'+id);if(qEl){qEl.textContent=p.qty;qEl.className='pqty '+qcls(p.qty);}if(card){card.classList.toggle('zero',p.qty===0);var mb=card.querySelector('.bm');if(mb)mb.disabled=p.qty===0;}var tot=products.reduce(function(s,p){return s+p.qty;},0),zer=products.filter(function(p){return p.qty===0;}).length;document.getElementById('stTotal').textContent=tot;document.getElementById('stZero').textContent=zer;document.getElementById('totalBadge').textContent=tot+' dona';}
-function renderHist(){var l=document.getElementById('hlist');if(!hist.length){l.innerHTML='<div style="padding:12px;text-align:center;color:var(--mut);font-size:11px">Hali o\'zgarish yo\'q</div>';return;}l.innerHTML=hist.slice(0,30).map(function(h){return'<div class="hitem"><span class="hsign '+(h.delta>0?'hpl':'hmi')+'">'+(h.delta>0?'+':'')+h.delta+'</span><div><div style="font-family:var(--mono);font-size:11px;color:var(--txt)">'+h.model+'</div><div style="font-size:9px;color:var(--mut)">'+h.user+' &middot; '+h.group+'</div></div><div class="hmeta">'+h.newQty+' dona<br>'+h.time+'</div></div>';}).join('');}
-function openP(id){var p=products.find(function(x){return x.id===id;});if(!p)return;mid=id;document.getElementById('ptitle').textContent=p.model;document.getElementById('psub').textContent=p.group;document.getElementById('pnum').textContent=p.qty;document.getElementById('pinput').value='';document.getElementById('pov').classList.add('open');}
-function closeP(){document.getElementById('pov').classList.remove('open');mid=null;}
-function mch(d){if(mid!==null)change(mid,d);}
-function mapp(sign){if(mid===null)return;var v=parseInt(document.getElementById('pinput').value);if(!v||v<=0)return;change(mid,sign*v);document.getElementById('pinput').value='';}
-function setF(f,btn){filt=f;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');render();}
-document.getElementById('srch').addEventListener('input',function(){srch=this.value.toLowerCase().trim();render();});
-document.getElementById('uinput').value=localStorage.getItem('ombor_user')||'';
-document.getElementById('uinput').addEventListener('input',function(){localStorage.setItem('ombor_user',this.value);});
+var products=[], hist=[], curF='all', srchQ='', mid=null, pollT=null;
+
+// user
+var uinput=document.getElementById('uinput');
+uinput.value=localStorage.getItem('ombor_user')||'';
+uinput.addEventListener('input',function(){localStorage.setItem('ombor_user',this.value);});
+function getUser(){return uinput.value.trim()||"Noma'lum";}
+
+function dot(s){var d=document.getElementById('sdot');d.className='sdot'+(s==='spin'?' spin':s==='err'?' err':'');}
+
+// API calls
+async function api(url,method,body){
+  var opts={method:method||'GET',headers:{'Content-Type':'application/json'}};
+  if(body) opts.body=JSON.stringify(body);
+  var r=await fetch(url,opts);
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function loadStock(){
+  dot('spin');
+  try{
+    var data=await api('/api/stock');
+    products=data;
+    dot('ok');
+    render();
+    document.getElementById('hdrSub').textContent=getUser()||'2026 — Mart oyi';
+  }catch(e){dot('err');toast('Server bilan ulanib bo\'lmadi',false);}
+}
+
+async function loadHist(){
+  try{
+    hist=await api('/api/history');
+    document.getElementById('hcnt').textContent=hist.length+' ta';
+    if(document.getElementById('hlist').classList.contains('open')) renderHist();
+  }catch(e){}
+}
+
+async function ch(id,delta){
+  var p=products.find(function(x){return x.id===id;});
+  if(!p) return;
+  var nq=Math.max(0,p.qty+delta);
+  if(nq===p.qty) return;
+  p.qty=nq;
+  updateCard(id);
+  if(mid===id) document.getElementById('mnum').textContent=nq;
+  dot('spin');
+  try{
+    await api('/api/stock/'+id,'POST',{delta:delta,user:getUser()});
+    dot('ok');
+    toast((delta>0?'+'+delta:delta)+': '+p.model+' \u2192 '+nq+' dona',delta>0);
+    loadHist();
+  }catch(e){dot('err');toast('Saqlashda xatolik!',false);}
+}
+
+async function delProdApi(id){
+  try{await api('/api/stock/'+id,'DELETE',{user:getUser()});}catch(e){}
+}
+
+async function addProdApi(prod){
+  return api('/api/stock','POST',prod);
+}
+
+// polling
+function startPoll(){
+  if(pollT) clearInterval(pollT);
+  pollT=setInterval(async function(){
+    if(document.hidden) return;
+    try{
+      var fresh=await api('/api/stock');
+      var changed=false;
+      fresh.forEach(function(fp){
+        var lp=products.find(function(x){return x.id===fp.id;});
+        if(lp&&lp.qty!==fp.qty){lp.qty=fp.qty;changed=true;}
+        if(!lp){products.push(fp);changed=true;}
+      });
+      // check deleted
+      products=products.filter(function(p){return fresh.find(function(x){return x.id===p.id;});});
+      if(changed){render();toast("Yangi o'zgarish yuklandi",true);}
+      dot('ok');
+    }catch(e){dot('err');}
+  },10000);
+}
+
+// render
+function qc(q){return q===0?'q0':q<=5?'qr':q<=15?'qy':'qg';}
+function filtered(){
+  return products.filter(function(p){
+    var mf=curF==='all'||(curF==='zero'&&p.qty===0)||(curF==='zaryadka'&&p.brand==='zaryadka')||p.brand===curF;
+    var ms=!srchQ||p.model.toLowerCase().indexOf(srchQ)>=0||p.brand.toLowerCase().indexOf(srchQ)>=0||p.group.toLowerCase().indexOf(srchQ)>=0;
+    return mf&&ms;
+  });
+}
+function render(){
+  var fl=filtered();
+  var tot=products.reduce(function(s,p){return s+p.qty;},0);
+  var zer=products.filter(function(p){return p.qty===0;}).length;
+  document.getElementById('stTotal').textContent=tot;
+  document.getElementById('stTypes').textContent=products.length;
+  document.getElementById('stZero').textContent=zer;
+  document.getElementById('totalBadge').textContent=tot+' dona';
+  document.getElementById('hdrSub').textContent=getUser()||'2026 — Mart oyi';
+  var c=document.getElementById('container');
+  if(!fl.length){c.innerHTML='<div class="nores">Topilmadi</div>';return;}
+  var grps={};
+  fl.forEach(function(p){if(!grps[p.group])grps[p.group]=[];grps[p.group].push(p);});
+  var html='';
+  Object.keys(grps).forEach(function(g){
+    var items=grps[g];
+    var gt=items.reduce(function(s,p){return s+p.qty;},0);
+    html+='<div class="grp-hdr"><span class="grp-name">'+g+'</span><span class="grp-cnt">'+items.length+' tur</span><span class="grp-tot">'+gt+' dona</span></div><div class="plist">';
+    items.forEach(function(p){
+      html+='<div class="pcard'+(p.qty===0?' zero':'')+'" id="c'+p.id+'" onclick="openM('+p.id+')">'
+        +'<div class="pinfo"><div class="pmodel">'+p.model+'</div><div class="pbrand">'+p.group+'</div></div>'
+        +'<div class="pqty '+qc(p.qty)+'" id="q'+p.id+'">'+p.qty+'</div>'
+        +'<div class="btng" onclick="event.stopPropagation()">'
+        +'<button class="bp" onclick="ch('+p.id+',+1)">+</button>'
+        +'<button class="bm" onclick="ch('+p.id+',-1)"'+(p.qty===0?' disabled':'')+'>&#8722;</button>'
+        +'</div></div>';
+    });
+    html+='</div>';
+  });
+  c.innerHTML=html;
+}
+function updateCard(id){
+  var p=products.find(function(x){return x.id===id;});if(!p)return;
+  var qEl=document.getElementById('q'+id),card=document.getElementById('c'+id);
+  if(qEl){qEl.textContent=p.qty;qEl.className='pqty '+qc(p.qty);}
+  if(card){card.classList.toggle('zero',p.qty===0);var mb=card.querySelector('.bm');if(mb)mb.disabled=p.qty===0;}
+  var tot=products.reduce(function(s,p){return s+p.qty;},0);
+  var zer=products.filter(function(p){return p.qty===0;}).length;
+  document.getElementById('stTotal').textContent=tot;
+  document.getElementById('stZero').textContent=zer;
+  document.getElementById('totalBadge').textContent=tot+' dona';
+}
+function renderHist(){
+  var l=document.getElementById('hlist');
+  if(!hist.length){l.innerHTML='<div style="padding:12px;text-align:center;color:var(--mut);font-size:11px">Hali o\'zgarish yo\'q</div>';return;}
+  l.innerHTML=hist.slice(0,30).map(function(h){
+    return '<div class="hitem"><span class="hsign '+(h.delta>0?'hpl':'hmi')+'">'+(h.delta>0?'+':'')+h.delta+'</span>'
+      +'<div><div style="font-family:var(--mono);font-size:11px">'+h.model+'</div>'
+      +'<div style="font-size:9px;color:var(--mut)">'+h.user+' \u00b7 '+h.group+'</div></div>'
+      +'<div class="hmeta">'+h.newQty+' dona<br>'+h.time+'</div></div>';
+  }).join('');
+}
 function toggleH(){var l=document.getElementById('hlist');l.classList.toggle('open');if(l.classList.contains('open'))renderHist();}
-function openAdd(){var brands=[...new Set(products.map(function(p){return p.brand;}))];document.getElementById('blist').innerHTML=brands.map(function(b){return'<option value="'+b+'">';}).join('');['aBrand','aGroup','aModel'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('aQty').value='0';buildTags('');document.getElementById('aBrand').oninput=function(){buildTags(this.value.trim());};document.getElementById('aov').classList.add('open');}
+
+// product modal
+function openM(id){
+  var p=products.find(function(x){return x.id===id;});if(!p)return;
+  mid=id;
+  document.getElementById('mtitle').textContent=p.model;
+  document.getElementById('msub').textContent=p.group;
+  document.getElementById('mnum').textContent=p.qty;
+  document.getElementById('minput').value='';
+  document.getElementById('mov').classList.add('open');
+}
+function closeM(){document.getElementById('mov').classList.remove('open');mid=null;}
+function mch(d){if(mid!==null)ch(mid,d);}
+function mapp(sign){if(mid===null)return;var v=parseInt(document.getElementById('minput').value);if(!v||v<=0)return;ch(mid,sign*v);document.getElementById('minput').value='';}
+function delProd(){
+  if(mid===null)return;
+  var p=products.find(function(x){return x.id===mid;});if(!p)return;
+  if(!confirm(p.model+' ni o\'chirishni xohlaysizmi?'))return;
+  var delId=mid;
+  products=products.filter(function(x){return x.id!==delId;});
+  delProdApi(delId);
+  closeM();render();
+  toast('O\'chirildi: '+p.model,false);
+}
+
+// add product
+function openAdd(){
+  var brands=[];
+  products.forEach(function(p){if(brands.indexOf(p.brand)<0)brands.push(p.brand);});
+  document.getElementById('brandDL').innerHTML=brands.map(function(b){return '<option value="'+b+'">';}).join('');
+  document.getElementById('aBrand').value='';
+  document.getElementById('aGroup').value='';
+  document.getElementById('aModel').value='';
+  document.getElementById('aQty').value='0';
+  buildGrpTags('');
+  document.getElementById('aBrand').oninput=function(){buildGrpTags(this.value.trim());};
+  document.getElementById('aov').classList.add('open');
+}
+function buildGrpTags(brand){
+  var grps=[];
+  products.filter(function(p){return !brand||p.brand.toLowerCase().indexOf(brand.toLowerCase())>=0;})
+    .forEach(function(p){if(grps.indexOf(p.group)<0)grps.push(p.group);});
+  document.getElementById('groupTags').innerHTML=grps.map(function(g){
+    return '<span class="gtag" onclick="selGrp(\''+g.replace(/'/g,"\\'").replace(/"/g,"&quot;")+'\',this)">'+g+'</span>';
+  }).join('');
+}
+function selGrp(g,el){
+  document.getElementById('aGroup').value=g;
+  document.querySelectorAll('.gtag').forEach(function(t){t.classList.remove('sel');});
+  el.classList.add('sel');
+}
 function closeAdd(){document.getElementById('aov').classList.remove('open');}
-function buildTags(bq){var grps=[...new Set(products.filter(function(p){return!bq||p.brand.toLowerCase().includes(bq.toLowerCase());}).map(function(p){return p.group;}))];document.getElementById('grpTags').innerHTML=grps.map(function(g){return'<span class="tag" onclick="pickTag(this,\''+g.replace(/'/g,"\\'")+'\')">'+(g)+'</span>';}).join('');}
-function pickTag(el,g){document.getElementById('aGroup').value=g;document.querySelectorAll('.tag').forEach(function(t){t.classList.remove('on');});el.classList.add('on');}
-function addProduct(){var brand=document.getElementById('aBrand').value.trim();var group=document.getElementById('aGroup').value.trim();var model=document.getElementById('aModel').value.trim();var qty=Math.max(0,parseInt(document.getElementById('aQty').value)||0);if(!brand){showToast('Brend kiriting!',false);return;}if(!group){showToast('Guruh kiriting!',false);return;}if(!model){showToast('Model kiriting!',false);return;}if(products.find(function(p){return p.model.toLowerCase()===model.toLowerCase()&&p.group===group;})){showToast('Bu model allaqachon bor!',false);return;}var newId=Math.max.apply(null,[0].concat(products.map(function(p){return p.id;})))+1;products.push({id:newId,brand:brand,group:group,model:model,qty:qty});if(qty>0)hist.unshift({id:newId,model:model,group:group,delta:qty,newQty:qty,user:getUser(),time:getTs()+' [YANGI]'});save();closeAdd();render();document.getElementById('hcnt').textContent=hist.length+' ta';showToast('+ '+model+' qo\'shildi ('+qty+' dona)',true);}
-function showToast(msg,ok){var t=document.getElementById('toast');t.textContent=(ok?'+ ':'! ')+msg;t.style.borderColor=ok?'var(--grn)':'var(--red)';t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},2400);}
-function openExp(){var sold=buildSold();document.getElementById('eSC').textContent=sold.length+' tur';document.getElementById('eQC').textContent=products.length+' tur';document.getElementById('eZC').textContent=products.filter(function(p){return p.qty===0;}).length+' tur';document.getElementById('eHC').textContent=hist.length+' ta';document.getElementById('eov').classList.add('open');}
+async function addProd(){
+  var brand=document.getElementById('aBrand').value.trim();
+  var group=document.getElementById('aGroup').value.trim();
+  var model=document.getElementById('aModel').value.trim();
+  var qty=parseInt(document.getElementById('aQty').value)||0;
+  if(!brand){toast('Brend kiriting!',false);return;}
+  if(!group){toast('Guruh kiriting!',false);return;}
+  if(!model){toast('Model kiriting!',false);return;}
+  if(products.find(function(p){return p.model.toLowerCase()===model.toLowerCase()&&p.group===group;})){
+    toast('Bu model allaqachon mavjud!',false);return;
+  }
+  dot('spin');
+  try{
+    var newProd=await addProdApi({brand:brand,group:group,model:model,qty:qty,user:getUser()});
+    products.push(newProd);
+    dot('ok');
+    closeAdd();
+    curF='all';
+    document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('on');});
+    document.querySelector('.fbtn').classList.add('on');
+    render();
+    toast('+ '+model+' qo\'shildi ('+qty+' dona)',true);
+  }catch(e){dot('err');toast('Saqlashda xatolik!',false);}
+}
+
+// filter & search
+function setF(f,btn){curF=f;document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');render();}
+document.getElementById('srch').addEventListener('input',function(){srchQ=this.value.toLowerCase().trim();render();});
+
+// toast
+var tT;
+function toast(msg,ok){
+  var t=document.getElementById('toast');
+  t.textContent=(ok?'+ ':'! ')+msg;
+  t.style.borderColor=ok?'var(--grn)':'var(--red)';
+  t.classList.add('show');
+  clearTimeout(tT);
+  tT=setTimeout(function(){t.classList.remove('show');},2500);
+}
+
+// export
+function openExp(){
+  var sold=buildSold();
+  document.getElementById('eSold').textContent=sold.length+' tur';
+  document.getElementById('eStock').textContent=products.length+' tur';
+  document.getElementById('eZero').textContent=products.filter(function(p){return p.qty===0;}).length+' tur';
+  document.getElementById('eHist').textContent=hist.length+' ta';
+  document.getElementById('eov').classList.add('open');
+}
 function closeExp(){document.getElementById('eov').classList.remove('open');}
-function buildSold(){var s={};hist.forEach(function(h){if(h.delta<0){if(!s[h.id]){var p=products.find(function(x){return x.id===h.id;});s[h.id]={model:h.model,group:h.group,totalSold:0,currentQty:p?p.qty:0};}s[h.id].totalSold+=Math.abs(h.delta);}});return Object.values(s);}
-function doExport(){var period=document.getElementById('eper').value||'Hisobot';var sheets=[];var esc=function(s){return String(s!=null?s:'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};if(document.getElementById('chkSold').checked){var sd=buildSold();var rows=[[period+' SOTILGAN','','',''],['Guruh','Model','Sotilgan','Joriy']];if(!sd.length){rows.push(["Harakat yo'q",'','','']);}else{var tot=0;var bg={};sd.forEach(function(s){if(!bg[s.group])bg[s.group]=[];bg[s.group].push(s);});Object.keys(bg).forEach(function(g){bg[g].forEach(function(s){rows.push([g,s.model,s.totalSold,s.currentQty]);tot+=s.totalSold;});});rows.push(['','JAMI',tot,'']);}sheets.push({name:'Sotilgan',rows:rows});}
-if(document.getElementById('chkStock').checked){var rows2=[[period+' JORIY QOLDIQ','','','',''],['Guruh','Model','Boshlangich','Joriy','Holat']];var bg2={};products.forEach(function(p){if(!bg2[p.group])bg2[p.group]=[];bg2[p.group].push(p);});var gt=0;Object.keys(bg2).forEach(function(g){var items=bg2[g];items.forEach(function(p){var ini=INIT.find(function(x){return x.id===p.id;});var h=p.qty===0?'Tugagan':p.qty<=5?'Kam qoldi':p.qty<=15?'Ozaymoqda':'Yetarli';rows2.push([g,p.model,ini?ini.qty:'Yangi',p.qty,h]);});var gs=items.reduce(function(s,p){return s+p.qty;},0);rows2.push(['',g+' JAMI','',gs,'']);gt+=gs;});rows2.push(['','UMUMIY JAMI','',gt,'']);sheets.push({name:'Joriy Qoldiq',rows:rows2});}
-if(document.getElementById('chkZero').checked){var z=products.filter(function(p){return p.qty===0;});var rows3=[[period+' TUGAGAN','',''],['Guruh','Model','']];if(z.length){z.forEach(function(p){rows3.push([p.group,p.model,'']);});}else{rows3.push(["Hamma mavjud",'','']);}sheets.push({name:'Tugagan',rows:rows3});}
-if(document.getElementById('chkHist').checked){var rows4=[[period+' TARIX','','','',''],['Vaqt','Foydalanuvchi','Model',"O'zgarish",'Qoldiq']];hist.forEach(function(h){rows4.push([h.time,h.user,h.model,(h.delta>0?'+':'')+h.delta,h.newQty]);});sheets.push({name:'Tarix',rows:rows4});}
-if(!sheets.length){showToast("Kamida bitta tanlang!",false);return;}
-var xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Styles><Style ss:ID="t"><Font ss:Bold="1" ss:Size="13" ss:Color="#1E3A5F"/><Interior ss:Color="#D6E4F0" ss:Pattern="Solid"/></Style><Style ss:ID="h"><Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="10"/><Interior ss:Color="#1E3A5F" ss:Pattern="Solid"/></Style><Style ss:ID="to"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A5F" ss:Pattern="Solid"/></Style><Style ss:ID="sb"><Font ss:Bold="1" ss:Color="#1A7A4A"/><Interior ss:Color="#D4EDDA" ss:Pattern="Solid"/></Style><Style ss:ID="zz"><Font ss:Color="#C0392B"/><Interior ss:Color="#FDECEA" ss:Pattern="Solid"/></Style><Style ss:ID="ww"><Font ss:Color="#E67E22"/><Interior ss:Color="#FFF3CC" ss:Pattern="Solid"/></Style><Style ss:ID="ev"><Interior ss:Color="#F5F7FA" ss:Pattern="Solid"/></Style></Styles>';
-sheets.forEach(function(sh){xml+='<Worksheet ss:Name="'+esc(sh.name)+'"><Table>';sh.rows.forEach(function(row,ri){xml+='<Row>';row.forEach(function(cell){var v=cell!=null?cell:'';var isN=typeof v==='number';var s=String(v);var isTitle=ri===0,isHdr=ri===1,isTot=s.indexOf('JAMI')>=0||s.indexOf('UMUMIY')>=0,isSb=!isTot&&s.endsWith('JAMI');var sid='';if(isTitle)sid='t';else if(isHdr)sid='h';else if(isTot)sid='to';else if(isSb)sid='sb';else if(s==='Tugagan')sid='zz';else if(s==='Kam qoldi')sid='ww';else if(ri%2===0)sid='ev';var sa=sid?' ss:StyleID="'+sid+'"':'';xml+=isN?'<Cell'+sa+'><Data ss:Type="Number">'+v+'</Data></Cell>':'<Cell'+sa+'><Data ss:Type="String">'+esc(v)+'</Data></Cell>';});xml+='</Row>';});xml+='</Table></Worksheet>';});
-xml+='</Workbook>';
-var blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='ombor_'+period.replace(/\s/g,'_')+'.xls';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);closeExp();showToast('Excel yuklanmoqda...',true);}
-load();render();document.getElementById('hcnt').textContent=hist.length+' ta';
+function buildSold(){
+  var s={};
+  hist.forEach(function(h){
+    if(h.delta<0){
+      if(!s[h.id]){var p=products.find(function(x){return x.id===h.id;});s[h.id]={id:h.id,model:h.model,group:h.group,sold:0,qty:p?p.qty:0};}
+      s[h.id].sold+=Math.abs(h.delta);
+    }
+  });
+  return Object.values(s);
+}
+function doExport(){
+  var period=document.getElementById('eper').value||'Hisobot';
+  var sheets=[];
+  if(document.getElementById('chkSold').checked){
+    var sd=buildSold();
+    var rows=[[period+' — SOTILGAN TAVARLAR','','',''],['Guruh','Model','Sotilgan (dona)','Joriy qoldiq']];
+    if(!sd.length)rows.push(['Hali harakat yo\'q','','','']);
+    else{var bg={};sd.forEach(function(s){if(!bg[s.group])bg[s.group]=[];bg[s.group].push(s);});var tot=0;Object.keys(bg).forEach(function(g){bg[g].forEach(function(s){rows.push([g,s.model,s.sold,s.qty]);tot+=s.sold;});});rows.push(['','JAMI',tot,'']);}
+    sheets.push({name:'Sotilgan',rows:rows});
+  }
+  if(document.getElementById('chkStock').checked){
+    var rows2=[[period+' — JORIY QOLDIQ','','','',''],['Guruh','Model','Joriy qoldiq','Holat','']];
+    var bg2={};products.forEach(function(p){if(!bg2[p.group])bg2[p.group]=[];bg2[p.group].push(p);});
+    var gt=0;
+    Object.keys(bg2).forEach(function(g){
+      bg2[g].forEach(function(p){var h=p.qty===0?'Tugagan':p.qty<=5?'Kam qoldi':p.qty<=15?'Ozaymoqda':'Yetarli';rows2.push([g,p.model,p.qty,h,'']);});
+      var gs=bg2[g].reduce(function(s,p){return s+p.qty;},0);rows2.push(['',g+' JAMI',gs,'','']);gt+=gs;
+    });
+    rows2.push(['','UMUMIY JAMI',gt,'','']);
+    sheets.push({name:'Joriy Qoldiq',rows:rows2});
+  }
+  if(document.getElementById('chkZero').checked){
+    var z=products.filter(function(p){return p.qty===0;});
+    var rows3=[[period+' — TUGAGAN','',''],['Guruh','Model','']];
+    if(!z.length)rows3.push(['Hamma mavjud','','']);
+    else z.forEach(function(p){rows3.push([p.group,p.model,'']);});
+    sheets.push({name:'Tugagan',rows:rows3});
+  }
+  if(document.getElementById('chkHist').checked){
+    var rows4=[[period+' — TARIX','','','',''],['Vaqt','Foydalanuvchi','Model','O\'zgarish','Yangi miqdor']];
+    hist.forEach(function(h){rows4.push([h.time,h.user,h.model,(h.delta>0?'+':'')+h.delta,h.newQty]);});
+    sheets.push({name:'Tarix',rows:rows4});
+  }
+  if(!sheets.length){toast('Bitta variant tanlang!',false);return;}
+  var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+  var xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Styles><Style ss:ID="tt"><Font ss:Bold="1" ss:Size="13" ss:Color="#1E3A5F"/><Interior ss:Color="#D6E4F0" ss:Pattern="Solid"/></Style><Style ss:ID="hh"><Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="10"/><Interior ss:Color="#1E3A5F" ss:Pattern="Solid"/></Style><Style ss:ID="to"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1E3A5F" ss:Pattern="Solid"/></Style><Style ss:ID="sb"><Font ss:Bold="1" ss:Color="#1A7A4A"/><Interior ss:Color="#D4EDDA" ss:Pattern="Solid"/></Style><Style ss:ID="zz"><Font ss:Color="#C0392B"/><Interior ss:Color="#FDECEA" ss:Pattern="Solid"/></Style><Style ss:ID="ee"><Interior ss:Color="#F5F7FA" ss:Pattern="Solid"/></Style></Styles>\n';
+  sheets.forEach(function(sh){
+    xml+='<Worksheet ss:Name="'+esc(sh.name)+'"><Table>\n';
+    sh.rows.forEach(function(row,ri){
+      xml+='<Row>';
+      row.forEach(function(cell){
+        var v=cell==null?'':cell;var isN=typeof v==='number';var s=String(v);
+        var isTot=s.indexOf('JAMI')>=0||s.indexOf('UMUMIY')>=0;
+        var isSb=!isTot&&s.indexOf('JAMI')>=0;
+        var sid=ri===0?'tt':ri===1?'hh':isTot?'to':isSb?'sb':s==='Tugagan'?'zz':ri%2===0?'ee':'';
+        var sa=sid?' ss:StyleID="'+sid+'"':'';
+        xml+=isN?'<Cell'+sa+'><Data ss:Type="Number">'+v+'</Data></Cell>':'<Cell'+sa+'><Data ss:Type="String">'+esc(v)+'</Data></Cell>';
+      });
+      xml+='</Row>\n';
+    });
+    xml+='</Table></Worksheet>\n';
+  });
+  xml+='</Workbook>';
+  var blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='ombor_'+period.replace(/\s/g,'_')+'.xls';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  closeExp();toast('Excel yuklanmoqda...',true);
+}
+
+// start
+loadStock();
+loadHist();
+startPoll();
+document.addEventListener('visibilitychange',function(){if(!document.hidden){loadStock();loadHist();}});
 </script>
 </body>
 </html>
